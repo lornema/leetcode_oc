@@ -29,7 +29,6 @@
 
 @interface Solution : NSObject
 @property (nonatomic, strong) NSMutableDictionary *dicM;
-@property (nonatomic, strong) ChartNode *cloneNode;
 @end
 @implementation Solution
 - (ChartNode *)cloneGraph:(ChartNode *)node{
@@ -45,14 +44,15 @@
     if ([self.dicM objectForKey:key]) {
         return self.dicM[key];
     }
-    self.cloneNode = [[ChartNode alloc]init];
-    self.cloneNode -> _value =  node->_value;
-    NSMutableArray *neighborArr = node -> _neighbors;
-    for (ChartNode *neighbor in neighborArr) {
-        [self.cloneNode -> _neighbors addObject:[self DFS:neighbor]];
+    //对节点进行克隆
+    ChartNode *cloneNode = [[ChartNode alloc]init];
+    [self.dicM setObject:cloneNode forKey:key];
+    cloneNode -> _value =  node->_value;
+    for (ChartNode *neighbor in node -> _neighbors) {
+        [cloneNode -> _neighbors addObject:[self DFS:neighbor]];
     }
-
-    return self.cloneNode;
+    
+    return cloneNode;
 }
 @end
 
@@ -97,19 +97,18 @@ int main(int argc, const char * argv[]) {
         node1->_value = 1;
         node2->_value = 2;
         node3->_value = 3;
-        node3->_value = 4;
+        node4->_value = 4;
         node1->_neighbors = [@[node2,node4] mutableCopy];
         node2->_neighbors = [@[node1,node3] mutableCopy];
         node3->_neighbors = [@[node2,node4] mutableCopy];
-        node3->_neighbors = [@[node1,node3] mutableCopy];
+        node4->_neighbors = [@[node1,node3] mutableCopy];
         
         
         //利用DFS 便利节点  不过要注意不要陷入无限循环防止重复遍历就行
         Solution *solution = [[Solution alloc]init];
-       ChartNode *cloneNode = [solution cloneGraph:node1];
+        ChartNode *cloneNode = [solution cloneGraph:node1];
         
         NSLog(@"%@",cloneNode);
-       // newNode 为新客隆图的第一个节点
 
     }
     return 0;
