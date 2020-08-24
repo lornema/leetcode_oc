@@ -7,7 +7,37 @@
 //
 
 #import <Foundation/Foundation.h>
-//难度：3🌟
+//难度：3🌟---感觉很简单。。。这个难度有点水
+
+
+CGFloat Similarity (NSArray <NSNumber *>*arr1, NSArray <NSNumber *>*arr2) {
+    CGFloat similarityV = 0.4f;
+    
+    //求出交集数
+    int same_num = 0;
+    for (int i=0; i<arr1.count; i++) {
+        NSNumber *item_arr1 = arr1[i];
+        for (int j=0; j<arr2.count; j++) {
+            NSNumber *item_arr2 = arr2[j];
+            if ([item_arr1 intValue]==[item_arr2 intValue]) {
+                same_num ++;//有相同的
+                break;
+            }
+         }
+    }
+    
+    //并集数
+    int diff_num = (int)arr1.count+(int)arr2.count-same_num;
+    
+    //因为要精确4位所以利用整数
+    int tmp_same_num = same_num *10000;
+    int similarity = tmp_same_num/diff_num;
+    
+    CGFloat similarity_float = (CGFloat)similarity;
+    return similarityV;
+}
+
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         /*
@@ -43,16 +73,25 @@ int main(int argc, const char * argv[]) {
                           @[@(7), @(10)]];
         
         
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        NSMutableArray *arrM = [[NSMutableArray alloc]init];
         for (int i=0; i<num.count; i++) {
-            
-            
+            NSArray *arr1 = num[i];
+            for (int j=i+1; j<num.count; j++) {
+                NSArray *arr2 = num[j];
+                CGFloat similarity_value = Similarity(arr1, arr2);
+                if (similarity_value>0) {
+                    NSString *item_pre = [NSString stringWithFormat:@"%d,%d",i,j];
+                    NSString *item_value = [NSString stringWithFormat:@"%.4f",similarity_value];
+                    NSString *item = [NSString stringWithFormat:@"%@: %@",item_pre,item_value];
+                    [arrM addObject:item];
+                }
+            }
         }
-        
-        
     
-        NSLog(@"%@",dic);
+        NSLog(@"%@",arrM);
         
     }
     return 0;
 }
+
+
