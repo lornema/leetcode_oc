@@ -9,18 +9,30 @@
 #import <Foundation/Foundation.h>
 
 void bubbleSort (NSMutableArray *needRankArr) {
-    
-   for (int i=0; i<needRankArr.count-1; i++) {
-       for (int j=i+1; j<needRankArr.count; j++) {
-           NSInteger m = [needRankArr[i] integerValue];
-           NSInteger n = [needRankArr[j] integerValue];
-           if (m > n) {
-               [needRankArr exchangeObjectAtIndex:i withObjectAtIndex:j];
-           }
-       }
+  
+//这个不算冒泡排序 每次遍历都是找到最小的，而且数组不是和相邻的做对比 1-2，1-3，1-4这种
+//   for (int i=0; i<needRankArr.count-1; i++) {
+//       for (int j=i+1; j<needRankArr.count; j++) {
+//           NSInteger m = [needRankArr[i] integerValue];
+//           NSInteger n = [needRankArr[j] integerValue];
+//           NSLog(@"第%d遍历，位置%d与位置%d",i,i,j);
+//           if (m > n) {
+//               [needRankArr exchangeObjectAtIndex:i withObjectAtIndex:j];
+//           }
+//       }
+//    }
+ 
+    for (int i=0; i<needRankArr.count; i++) {//需要遍历的次数 每次遍历确定一个最大值 然后排到最后面
+        for (int j=0; j<needRankArr.count-i-1; j++) {
+           NSInteger m = [needRankArr[j] integerValue];
+           NSInteger n = [needRankArr[j+1] integerValue];
+            NSLog(@"第%d遍历，位置%d与位置%d",i,j,j+1);
+            if (m>n) {//相邻的两个数做比较
+               [needRankArr exchangeObjectAtIndex:j withObjectAtIndex:j+1];
+            }
+        }
     }
      NSLog(@"冒泡排序%@",needRankArr);
-    
 }
 
 void InsertionSort (NSMutableArray *needRankArr) {
