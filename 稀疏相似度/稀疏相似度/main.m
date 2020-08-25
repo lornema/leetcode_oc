@@ -29,12 +29,12 @@ CGFloat Similarity (NSArray <NSNumber *>*arr1, NSArray <NSNumber *>*arr2) {
     //并集数
     int diff_num = (int)arr1.count+(int)arr2.count-same_num;
     
-    //因为要精确4位所以利用整数
-    int tmp_same_num = same_num *10000;
-    int similarity = tmp_same_num/diff_num;
+    //因为要精确4位所以利用整数---这里是需要4舍5入的 所以。。。。
+     // int tmp_same_num = same_num *10000;
     
-    CGFloat similarity_float = (CGFloat)similarity;
-    return similarityV;
+    CGFloat similarity_float = (CGFloat) same_num/diff_num;
+    
+    return similarity_float;
 }
 
 
