@@ -60,11 +60,21 @@ int main(int argc, const char * argv[]) {
             NSMutableArray *rowArr = [array[i] mutableCopy];
             [mutabArray addObject:rowArr];
         }
-    
+
+        
+        NSMutableArray <NSMutableArray *>*mutabArray2 = [[NSMutableArray alloc]init];
+        for (int i=0; i<array.count; i++) {
+            NSMutableArray *rowArr = [array[i] mutableCopy];
+            [mutabArray2 addObject:rowArr];
+        }
+        
+        
+        
+        //解法一 深度搜索 会有重复遍历 比较费时但是节省空间
         for (int i=0; i<mutabArray.count; i++) {
 
             NSArray *rowArr = mutabArray[i];
-            
+
             if (i==0||i==array.count-1) {
                 for (int j=0; j<rowArr.count; j++) {
                     NSString *str_item = rowArr[j];
@@ -84,7 +94,7 @@ int main(int argc, const char * argv[]) {
                 }
             }
         }
-        
+
         //遍历一遍将A替换成O，O替换成X
         for (int y=0; y<mutabArray.count; y++) {
             NSMutableArray *rowArr = mutabArray[y];
@@ -98,10 +108,76 @@ int main(int argc, const char * argv[]) {
                 [rowArr replaceObjectAtIndex:x withObject:str_item];
             }
         }
-        
+
         //深度遍历结束
-        NSLog(@"%@",mutabArray);
+        NSLog(@"DFS:%@",mutabArray);
         
+        
+        //解法二： 广度优先搜索 比较节约时间 需要用一个队列来存储便利的节点 空间换时间
+        NSMutableArray *queue  =  [[NSMutableArray alloc]init];
+        for (int i=0; i<mutabArray2.count; i++) {
+
+               NSArray *rowArr = mutabArray2[i];
+               
+               if (i==0||i==array.count-1) {
+                   for (int j=0; j<rowArr.count; j++) {
+                       NSString *str_item = rowArr[j];
+                       if ([str_item isEqualToString:@"O"]) {
+                           [queue addObject:@[@(j),@(i)]];
+                       }
+                   }
+               }else{
+                   NSString *str_item_0 = rowArr[0];
+                   if ([str_item_0 isEqualToString:@"O"]) {
+                         [queue addObject:@[@(0),@(i)]];
+                   }
+
+                   NSString *str_item_last = rowArr[rowArr.count-1];
+                   if ([str_item_last isEqualToString:@"O"]) {
+                        [queue addObject:@[@(rowArr.count-1),@(i)]];
+                   }
+               }
+        }
+        
+        while (queue.count) {
+               NSArray *item_front = queue[0];//取出队列头部第一个
+              [queue removeObject:item_front];//压出队列
+              int x = [item_front[0] intValue];
+              int y = [item_front[1] intValue];
+              mutabArray2[y][x] = @"A";
+             //求出这个节点 4个方向的下一个节点的是不是A
+            NSArray *dx = @[@(1),@(-1),@(0),@(0)];
+            NSArray *dy = @[@(0),@(0),@(1),@(-1)];
+            for (int i=0; i<4; i++) {
+                int mx = x + [dx[i] intValue];
+                int my = y + [dy[i] intValue];
+                if (my<0||my>=mutabArray2.count||mx<0||mx>=mutabArray2[0].count) {
+                    continue;
+                }
+                
+                NSString *item_v = mutabArray2[my][mx];
+                if (![item_v isEqualToString:@"O"]) {
+                   continue;
+                }
+                [queue addObject:mutabArray2[my][mx]];
+            }
+        }
+        
+        //遍历一遍将A替换成O，O替换成X
+        for (int y=0; y<mutabArray2.count; y++) {
+            NSMutableArray *rowArr = mutabArray2[y];
+              for (int x=0; x<rowArr.count; x++) {
+                NSString *str_item = rowArr[x];
+                if ([str_item isEqualToString:@"O"]) {
+                    str_item = @"X";
+                }else if([str_item isEqualToString:@"A"]) {
+                    str_item = @"O";
+              }
+              [rowArr replaceObjectAtIndex:x withObject:str_item];
+            }
+        }
+        
+          NSLog(@"BFS:%@",mutabArray2);
      
     }
     return 0;
