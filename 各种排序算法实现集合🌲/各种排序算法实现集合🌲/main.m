@@ -56,6 +56,12 @@ void SelectionSort (NSMutableArray *needRankArr) {
     
 }
 
+void MergeSort (NSMutableArray *needRankArr) {
+    //使用的就是分治思想
+    
+    
+}
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
       
@@ -69,11 +75,20 @@ int main(int argc, const char * argv[]) {
         /*
          我们将数组中的数据分为两个区间，已排序区间和未排序区间。初始已排序区间只有一个元素，就是数组的第一个元素。插入算法的核心思想是取未排序区间中的元素，在已排序区间中找到合适的插入位置将其插入，并保证已排序区间数据一直有序。重复这个过程，直到未排序区间中元素为空，算法结束。
          */
-        InsertionSort([rankArr mutableCopy]);
+       //InsertionSort([rankArr mutableCopy]);
         
         
-        //选择排序:时间复杂度 O(n^2) 非稳定排序
+        //选择排序:时间复杂度 O(n^2-)最好最差情况都是  非稳定排序  不建议使用
        // SelectionSort([rankArr mutableCopy])
+        
+        
+        //归并排序 时间复杂度始终是O(nlogn) 缺点：归并排序不是原地排序算法 空间复杂度O(n)
+        //MergeSort
+        
+        
+        //快速排序
+        //Quicksort
+    
         
         
         
