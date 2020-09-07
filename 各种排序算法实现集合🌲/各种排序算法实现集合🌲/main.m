@@ -56,16 +56,60 @@ void SelectionSort (NSMutableArray *needRankArr) {
     
 }
 
-void MergeSort (NSMutableArray *needRankArr) {
-    //使用的就是分治思想
+//归并排序
+void MergeSort1 (NSMutableArray *array, int leftIndex, int midIndex, int rightIndex ) {
+    // rightIndex-leftIndex+1的空间
+    // 开辟新的空间
+    NSMutableArray *aux = [NSMutableArray arrayWithCapacity:rightIndex-leftIndex+1];
     
+    //取出原数组中的每个元素 给临时数组
+    for (int i=leftIndex; i<= rightIndex; i++) {
+         aux[i-leftIndex] = array[i];
+    }
+    
+    //左右两个部分类似于两个竞争队列
+    
+    //i左半部分索引位置，j右半部分开始索引位置mid+1
+    int i = leftIndex, j = midIndex + 1;
+    for (int k=i; k<=rightIndex; k++) {
+        if (i > midIndex) { //如果左半部分元素已经全部处理完毕--直接开始右边的赋值 不需要做对比
+            array[k] = aux[j-leftIndex];
+            j++;
+        }else if (j > rightIndex) {//如果右半部分元素已经全部处理完毕 开始左边的赋值 不需要做对比
+            array[k] = aux[i-leftIndex];
+            i++;
+        }else if ([aux[i-leftIndex] intValue] < [aux[j-leftIndex] intValue]) {//左右队列做对比 引索移动
+            //左半部分所指元素 < 右半部分所指元素
+            array[k] = aux[i-leftIndex];
+            i++;
+        }else {
+            array[k] = aux[j-leftIndex];
+            j++;
+        }
+    }
     
 }
+
+void MergeSort (NSMutableArray *needRankArr, int leftIndex, int rightIndex) {
+    //使用的就是分治思想
+    //先对数组做拆分
+    if (leftIndex >= rightIndex) return;//
+    int mid = (leftIndex + rightIndex)/2;
+    //利用递归或者说DFS
+    MergeSort(needRankArr, leftIndex, mid);
+    MergeSort(needRankArr, mid+1 , rightIndex);
+    NSLog(@"l=%d,m=%d,r=%d",leftIndex,mid,rightIndex);
+    //会多次调用合并
+    MergeSort1(needRankArr, leftIndex, mid, rightIndex);
+
+}
+
+
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
       
-        NSArray *rankArr = [[NSMutableArray alloc]initWithObjects:@(3),@(7),@(5),@(2),@(9),@(10),@(2),@(11),@(8), nil];
+        NSMutableArray *rankArr = [[NSMutableArray alloc]initWithObjects:@(3),@(7),@(5),@(2),@(9),@(10),@(2),@(11),@(8), nil];
         
         //几种递归排序：
         //冒泡排序：时间复杂度 O(n^2)  空间复杂度O(1)
@@ -83,14 +127,14 @@ int main(int argc, const char * argv[]) {
         
         
         //归并排序 时间复杂度始终是O(nlogn) 缺点：归并排序不是原地排序算法 空间复杂度O(n)
-        //MergeSort
+       // MergeSort(rankArr, 0, (int)rankArr.count-1);
         
         
         //快速排序
         //Quicksort
     
         
-        
+        NSLog(@"%@",rankArr);
         
     }
     return 0;
