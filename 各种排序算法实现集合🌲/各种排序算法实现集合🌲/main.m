@@ -105,6 +105,12 @@ void MergeSort (NSMutableArray *needRankArr, int leftIndex, int rightIndex) {
 }
 
 
+//快速排序
+void Quicksort (NSMutableArray *needRankArr) {
+    
+   
+    
+}
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -130,7 +136,9 @@ int main(int argc, const char * argv[]) {
        // MergeSort(rankArr, 0, (int)rankArr.count-1);
         
         
-        //快速排序
+        //快速排序 时间复杂度O(nlogn) 最差O(n^2) 最好O(n) 非稳定排序算法 可以原地排序
+        //和归并排序很像，归并自下而上排序，快排自上而下。
+        //快排：取分区点然后分区 把小于分区点的放左边 大于分区点放右边 然后继续分区 直到不能分区为止
         //Quicksort
     
         
