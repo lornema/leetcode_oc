@@ -104,11 +104,35 @@ void MergeSort (NSMutableArray *needRankArr, int leftIndex, int rightIndex) {
 
 }
 
-
 //快速排序
-void Quicksort (NSMutableArray *needRankArr) {
+int QuicksortPoint (NSMutableArray * array, int leftIndex, int rightIndex) {
+    int p = rightIndex;
     
+    //不用多余的空间做一个原地排序--
+    int i = leftIndex;//用于记录大于p坐标的第一个元素
+    for (int j=leftIndex; j<rightIndex-leftIndex; j++) {
+        //leftIndex到rightIndex-1位置的元素依次和p为止元素做大小比较
+        //把小元素都交换到数组左边
+        if ([array[j] intValue] > [array[p] intValue]) {//当前元素 大于p位置元素
+            
+        }
+        
+    }
    
+    return 1;
+}
+
+
+void Quicksort (NSMutableArray *needRankArr, int leftIndex, int rightIndex) {
+    
+    if (leftIndex >= rightIndex ) {//不继续分区
+        return;
+    }
+    
+    int i=leftIndex, j=rightIndex;
+    int p = QuicksortPoint(needRankArr, i, j);//排序 并获得中间排序部分的 位置
+    Quicksort(needRankArr, leftIndex, p-1);//继续分割左半部分
+    Quicksort(needRankArr, p+1, rightIndex);//继续分割右半部分
     
 }
 
@@ -139,8 +163,8 @@ int main(int argc, const char * argv[]) {
         //快速排序 时间复杂度O(nlogn) 最差O(n^2) 最好O(n) 非稳定排序算法 可以原地排序
         //和归并排序很像，归并自下而上排序，快排自上而下。
         //快排：取分区点然后分区 把小于分区点的放左边 大于分区点放右边 然后继续分区 直到不能分区为止
-        //Quicksort
-    
+        Quicksort(rankArr, 0, rankArr.count-1);
+        
         
         NSLog(@"%@",rankArr);
         
