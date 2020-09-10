@@ -172,7 +172,15 @@ int main(int argc, const char * argv[]) {
         //快速排序 时间复杂度O(nlogn) 最差O(n^2) 最好O(n) 非稳定排序算法 可以原地排序
         //和归并排序很像，归并自下而上排序，快排自上而下。
         //快排：取分区点然后分区 把小于分区点的放左边 大于分区点放右边 然后继续分区 直到不能分区为止
-        Quicksort(rankArr, 0, (int)rankArr.count-1);
+       // Quicksort(rankArr, 0, (int)rankArr.count-1);
+        
+        
+        //几种线性排序：O（n）：桶排序、计数排序、基数排序
+        //1.桶排序--分几个桶然后每个桶进行快排，感觉没比快排优秀 不写了
+        
+        //2.计数排序
+        
+        
         
         
         NSLog(@"%@",rankArr);
